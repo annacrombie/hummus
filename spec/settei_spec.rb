@@ -5,17 +5,17 @@ RSpec.describe Settei do
 
   context 'setteings' do
     before(:each) do
-      @class = newklass(
-        pub: {
+      @class = Class.new
+      @class.include(Settei.cfg do |s|
+        s.cfg = {
           foo: true,
           bar: 'no',
-        },
-        priv: {
           baz: 'shh'
-        },
-        accessors: %w[config jej],
-        prefix: '_'
-      )
+        }
+        s.private << :baz
+        s.accessors = %i[config jej]
+        s.prefix = '_'
+      end)
     end
 
     it 'has config accessors' do
