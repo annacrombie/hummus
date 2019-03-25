@@ -57,6 +57,24 @@ RSpec.describe Settei do
     it 'remembers values' do
       @class._dont_foo
       expect(@class._foo?).not_to be(true)
+      @class._do_foo
+      expect(@class._foo?).to be(true)
+      @class._dont_foo
+      expect(@class._foo?).not_to be(true)
+      @class._foo!
+      expect(@class._foo?).to be(true)
+    end
+
+    it 'has working setters' do
+      @class._bar = 'yes'
+      @class._foo = false
+      expect(@class._bar).to eq('yes')
+      expect(@class._foo).to eq(false)
+    end
+
+    it 'checks type' do
+      expect{ @class._bar = true }.to raise_exception(TypeError)
+      expect{ @class._foo = 'no' }.to raise_exception(TypeError)
     end
   end
 end
