@@ -1,11 +1,11 @@
-RSpec.describe Settei do
+RSpec.describe Hummus do
   it 'has a version number' do
-    expect(Settei::VERSION).not_to be nil
+    expect(Hummus::VERSION).not_to be nil
   end
 
-  context 'setteings' do
+  context 'settings' do
     let(:hash) { { foo: true, bar: 'no', baz: 'shh' } }
-    let(:klass) { Class.new.tap { |c| c.include(Settei.setup(hash)) } }
+    let(:klass) { Class.new.tap { |c| c.include(Hummus.setup(hash)) } }
     let(:config) { klass.config }
 
     it 'has config accessors' do

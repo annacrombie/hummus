@@ -1,3 +1,3 @@
-module Settei
+module Hummus
   VERSION = '0.2.0'.freeze
 end

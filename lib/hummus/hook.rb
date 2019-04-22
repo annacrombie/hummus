@@ -1,4 +1,4 @@
-module Settei
+module Hummus
   module Hook
     class << self
       attr_accessor :stash
@@ -12,7 +12,7 @@ module Settei
           block.call(stash)
         end
 
-        rcvr.const_set(:SetteiHook, self)
+        rcvr.const_set(:HummusHook, self)
       end
 
       alias append_features hook

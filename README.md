@@ -1,4 +1,4 @@
-# Settei
+# Hummus
 
 Settings for ruby objects
 
@@ -7,7 +7,7 @@ Settings for ruby objects
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'settei'
+gem 'hummus'
 ```
 
 And then execute:
@@ -16,13 +16,13 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install settei
+    $ gem install hummus
 
 ## Usage
 
 ```ruby
 class CoolClass
-  include Settei.cfg(
+  include Hummus.cfg(
     path: '/a/cool/path',
     value: 93,
     do_this: true
