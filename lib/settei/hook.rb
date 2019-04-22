@@ -1,28 +1,22 @@
 module Settei
   module Hook
     class << self
-      def append_features(rcvr); hook(rcvr); end
-      def prepend_features(rcvr); hook(rcvr); end
+      attr_accessor :stash
 
       def hook(rcvr)
-        @features&.each do |feat, block|
-          rcvr.define_singleton_method(feat, &block)
+        stash = @stash
+
+        rcvr.define_singleton_method(:config) do |&block|
+          return stash if block.nil?
+
+          block.call(stash)
         end
 
-        @ini_features&.each do |feat, block|
-          rcvr.define_singleton_method(feat, &block.call(rcvr))
-        end
+        rcvr.const_set(:SetteiHook, self)
       end
 
-      def register(*features)
-        @features ||= []
-        features.each { |feat| @features += feat}
-      end
-
-      def register_with_reciever(*features)
-        @ini_features ||= []
-        features.each { |feat| @ini_features += feat}
-      end
+      alias append_features hook
+      alias prepend_features hook
     end
   end
 end

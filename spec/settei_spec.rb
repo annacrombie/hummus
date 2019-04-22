@@ -4,77 +4,54 @@ RSpec.describe Settei do
   end
 
   context 'setteings' do
-    before(:each) do
-      @class = Class.new
-      @class.include(Settei.cfg do |s|
-        s.cfg = {
-          foo: true,
-          bar: 'no',
-          baz: 'shh'
-        }
-        s.private << :baz
-        s.accessors = %i[config jej]
-        s.prefix = '_'
-      end)
-    end
+    let(:hash) { { foo: true, bar: 'no', baz: 'shh' } }
+    let(:klass) { Class.new.tap { |c| c.include(Settei.setup(hash)) } }
+    let(:config) { klass.config }
 
     it 'has config accessors' do
-      expect(@class).to respond_to(:config)
-      expect(@class).to respond_to(:jej)
+      expect(klass).to respond_to(:config)
     end
 
     it 'has public methods' do
-      expect(@class).to respond_to(:_foo)
-      expect(@class).to respond_to(:_foo=)
-      expect(@class).to respond_to(:_bar)
-      expect(@class).to respond_to(:_bar=)
+      expect(config).to respond_to(:foo)
+      expect(config).to respond_to(:bar)
+      expect(config).to respond_to(:baz)
     end
 
     it 'has variants for bools' do
-      expect(@class).to respond_to(:_foo?)
-      expect(@class).to respond_to(:_dont_foo)
-      expect(@class).to respond_to(:_do_foo)
-      expect(@class).to respond_to(:_foo!)
-    end
-
-    it 'does not have methods for private attrs' do
-      expect(@class).not_to respond_to(:_baz)
-      expect(@class).not_to respond_to(:_baz=)
+      expect(config).to respond_to(:foo?)
     end
 
     it 'has defaults' do
-      expect(@class.config[:foo]).to eq(true)
-      expect(@class.config[:bar]).to eq('no')
-      expect(@class.config[:baz]).to eq('shh')
+      expect(config.foo).to eq(true)
+      expect(config.bar).to eq('no')
+      expect(config.baz).to eq('shh')
     end
 
     it 'can take a block' do
-      @class.config do |c|
-        expect(c).to eq(@class)
+      klass.config do |c|
+        expect(c.foo).to eq(true)
       end
     end
 
     it 'remembers values' do
-      @class._dont_foo
-      expect(@class._foo?).not_to be(true)
-      @class._do_foo
-      expect(@class._foo?).to be(true)
-      @class._dont_foo
-      expect(@class._foo?).not_to be(true)
-      @class._foo!
-      expect(@class._foo?).to be(true)
+      config.foo = false
+      expect(config.foo).not_to be(true)
+
+      config.foo = true
+      expect(config.foo).to be(true)
     end
 
     it 'has working setters' do
-      @class._bar = 'yes'
-      @class._foo = false
-      expect(@class._bar).to eq('yes')
-      expect(@class._foo).to eq(false)
+      config.bar = 'yes'
+      config.foo = false
+      expect(config.bar).to eq('yes')
+      expect(config.foo).to eq(false)
     end
 
     it 'checks type' do
-      expect{ @class._bar = true }.to raise_exception(TypeError)
-      expect{ @class._foo = 'no' }.to raise_exception(TypeError)
+      expect{ config.bar = true }.to raise_exception(TypeError)
+      expect{ config.foo = 'no' }.to raise_exception(TypeError)
     end
   end
 end
