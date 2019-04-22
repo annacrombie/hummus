@@ -1,4 +1,4 @@
-require 'cstash'
+require 'chickpea'
 
 require 'hummus/core'
 require 'hummus/hook'

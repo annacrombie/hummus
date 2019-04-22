@@ -2,4 +2,4 @@ source 'https://rubygems.org'
 
 gemspec
 
-gem 'cstash', git: 'https://github.com/annacrombie/cstash.git', branch: :master
+gem 'chickpea', git: 'https://github.com/annacrombie/chickpea.git', branch: :master
